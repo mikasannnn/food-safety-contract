@@ -268,6 +268,7 @@ public class FootSafetyContract implements ContractInterface {
                 throw new ChaincodeException("Merchant does not exist: " + merchantId);
             }*/
 
+
             //获取检测报告
             InspectionReport report = getInspectionReport(context, reportId);
             //判断商家报告是否通过
