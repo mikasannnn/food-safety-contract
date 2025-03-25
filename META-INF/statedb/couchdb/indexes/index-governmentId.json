@@ -1,0 +1,7 @@
+{
+  "index": {
+    "fields": ["governmentId"]
+  },
+  "name": "index-governmentId",
+  "type": "json"
+}

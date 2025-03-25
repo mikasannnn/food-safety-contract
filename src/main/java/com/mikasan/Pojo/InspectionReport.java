@@ -8,6 +8,7 @@ import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public class InspectionReport {
     private String reportId;    //报告id唯一标识符
 
     @Property
-    private String merchantId;  //相关商家id,(查询过滤
+    private int merchantId;  //相关商家id,(查询过滤
 
     @Property
     private String inspectionDate;  //检测日期 报告有效性    待定
@@ -46,6 +47,9 @@ public class InspectionReport {
     @Property
     private String governmentId;    //待定属性
 
+/*    @Property
+    private List<String> foodReports;*/
+
     //转化为 JSON 字符串
     public String getSafetyStandard(){
         return new Gson().toJson(safetyStandards);
@@ -56,4 +60,12 @@ public class InspectionReport {
         Type listType = new TypeToken<List<String>>() {}.getType();
         this.safetyStandards = new Gson().fromJson(safetyStandardsJson, listType);
     }
+
+/*    // 添加食品检测报告ID
+    public void addFoodReport(String foodReportId) {
+        if (this.foodReports == null) {
+            this.foodReports = new ArrayList<>();
+        }
+        this.foodReports.add(foodReportId);
+    }*/
 }

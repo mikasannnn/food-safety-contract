@@ -1,38 +1,65 @@
 [
   {
-    "standardId": "GB2760-2014",
-    "standardName": "食品安全国家标准 食品添加剂使用标准",
-    "description": "规定了食品添加剂的使用范围、使用量和使用原则。",
-    "governmentId": "CN"
-  },
-  {
-    "standardId": "GB2762-2017",
-    "standardName": "食品安全国家标准 食品中污染物限量",
-    "description": "规定了食品中铅、镉、汞、砷等污染物的限量要求。",
-    "governmentId": "CN"
-  },
-  {
     "standardId": "SZ-Trace-2023",
     "standardName": "深圳市食品安全追溯管理办法",
-    "description": "规定了深圳市食品生产、流通和餐饮环节的追溯管理要求。",
-    "governmentId": "SZ"
+    "description": "规定了深圳市食品生产、流通和餐饮环节的追溯管理要求，确保食品来源可追溯。",
+    "governmentId": "SZ",
+    "validityPeriod": 3
   },
   {
     "standardId": "SZ-Catering-2023",
     "standardName": "深圳市餐饮服务食品安全操作规范",
-    "description": "规定了深圳市餐饮服务单位的食品安全操作要求。",
-    "governmentId": "SZ"
+    "description": "规定了深圳市餐饮服务单位的食品安全操作要求，包括食材采购、储存、加工等环节。",
+    "governmentId": "SZ",
+    "validityPeriod": 6
+  },
+  {
+    "standardId": "SZ-FreshFood-2023",
+    "standardName": "深圳市生鲜食品安全管理规范",
+    "description": "规定了深圳市生鲜食品的生产、运输和销售环节的安全管理要求，确保生鲜食品的质量。",
+    "governmentId": "SZ",
+    "validityPeriod": 3
   },
   {
     "standardId": "GZ-Trace-2023",
     "standardName": "广州市食品安全追溯管理办法",
-    "description": "规定了广州市食品生产、流通和餐饮环节的追溯管理要求。",
-    "governmentId": "GZ"
+    "description": "规定了广州市食品生产、流通和餐饮环节的追溯管理要求，确保食品供应链透明。",
+    "governmentId": "GZ",
+    "validityPeriod": 3
   },
   {
     "standardId": "GZ-Catering-2023",
     "standardName": "广州市餐饮服务食品安全操作规范",
-    "description": "规定了广州市餐饮服务单位的食品安全操作要求。",
-    "governmentId": "GZ"
+    "description": "规定了广州市餐饮服务单位的食品安全操作要求，包括卫生管理、食品加工流程等。",
+    "governmentId": "GZ",
+    "validityPeriod": 6
+  },
+  {
+    "standardId": "GZ-StreetFood-2023",
+    "standardName": "广州市街头食品安全管理规范",
+    "description": "规定了广州市街头食品的卫生和安全要求，确保街头食品的质量和可追溯性。",
+    "governmentId": "GZ",
+    "validityPeriod": 3
+  },
+  {
+    "standardId": "GZ-Trace-2023",
+    "standardName": "广州市食品安全追溯管理办法",
+    "description": "规定了广州市食品生产、流通和餐饮环节的追溯管理要求，确保食品供应链透明。",
+    "governmentId": "GZ",
+    "validityPeriod": 3
+  },
+  {
+    "standardId": "GZ-Catering-2023",
+    "standardName": "广州市餐饮服务食品安全操作规范",
+    "description": "规定了广州市餐饮服务单位的食品安全操作要求，包括卫生管理、食品加工流程等。",
+    "governmentId": "GZ",
+    "validityPeriod": 6
+  },
+  {
+    "standardId": "GZ-StreetFood-2023",
+    "standardName": "广州市街头食品安全管理规范",
+    "description": "规定了广州市街头食品的卫生和安全要求，确保街头食品的质量和可追溯性。",
+    "governmentId": "GZ",
+    "validityPeriod": 3
   }
 ]

@@ -1,0 +1,7 @@
+{
+  "index": {
+    "fields": ["txId"]
+  },
+  "name": "index-txId",
+  "type": "json"
+}

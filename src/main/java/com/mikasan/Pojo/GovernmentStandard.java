@@ -26,4 +26,7 @@ public class GovernmentStandard {
     @Property
     private String governmentId;    //政府id      待定
 
+    @Property
+    private int validityPeriod;     //有效期（月
+
 }

@@ -1,0 +1,7 @@
+{
+  "index": {
+    "fields": ["merchantId"]
+  },
+  "name": "index-merchantId",
+  "type": "json"
+}
