@@ -199,6 +199,7 @@ public class FootSafetyContract implements ContractInterface {
     }
 
 
+
     //提交食品检测报告，增加报告的权威性
     @Transaction
     public String submitFoodInspectionReport(Context context,
