@@ -19,7 +19,7 @@ public class Merchant {
 
 /*
     @Property
-    private int merchantId;  //商家id唯一标识符
+    private String merchantId;  //商家id唯一标识符
 
     @Property
     private String name;    //商家名

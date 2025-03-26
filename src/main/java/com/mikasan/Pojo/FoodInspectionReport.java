@@ -18,7 +18,7 @@ public class FoodInspectionReport {
     String foodId;
 
     @Property
-    int merchantId;
+    String merchantId;
 
     @Property
     String inspectionDate;

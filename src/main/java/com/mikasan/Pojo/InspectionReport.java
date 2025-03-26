@@ -27,7 +27,7 @@ public class InspectionReport {
     private String reportId;    //报告id唯一标识符
 
     @Property
-    private int merchantId;  //相关商家id,(查询过滤
+    private String merchantId;  //相关商家id,(查询过滤
 
     @Property
     private String inspectionDate;  //检测日期 报告有效性    待定

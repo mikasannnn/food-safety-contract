@@ -83,7 +83,7 @@ public class FootSafetyContract implements ContractInterface {
     @Transaction
     public void submitInspectionReport(Context context,
                                        String reportId,
-                                       int merchantId,
+                                       String merchantId,
                                        String inspectionDate,
                                        String inspectionAgency,
                                        String safetyStandardsJson, 
@@ -204,7 +204,7 @@ public class FootSafetyContract implements ContractInterface {
     @Transaction
     public String submitFoodInspectionReport(Context context,
                                            String foodId,
-                                           int merchantId,
+                                           String merchantId,
                                            String inspectionDate,
                                            String inspectionAgency,
                                            String SafetyLevel,
@@ -258,7 +258,7 @@ public class FootSafetyContract implements ContractInterface {
 
     //批准绿色认证，根据检测报告批准商家的绿色认证
     @Transaction
-    public void approveGreenCertification(Context context, int merchantId, String reportId,String foodId,boolean isApproved) {
+    public void approveGreenCertification(Context context, String merchantId, String reportId,String foodId,boolean isApproved) {
         try {
             log.info("Approving green certification for merchant: " + merchantId + ",report: " + reportId);
 
@@ -332,7 +332,7 @@ public class FootSafetyContract implements ContractInterface {
 
     //查询商家信息
 /*    @Transaction
-    public String queryMerchantInfo(Context context, int merchantId) {
+    public String queryMerchantInfo(Context context, String merchantId) {
         //查询商家信息
         ChaincodeStub stub = context.getStub();
         String stringState = stub.getStringState(merchantId);
@@ -345,7 +345,7 @@ public class FootSafetyContract implements ContractInterface {
 
     //查询食品报告
     @Transaction
-    public String queryFoodReports(Context context, int merchantId) {
+    public String queryFoodReports(Context context, String merchantId) {
 
         //构建查询
         //使用 CouchDB 的富查询语法，查询 merchantId 匹配的记录
@@ -371,7 +371,7 @@ public class FootSafetyContract implements ContractInterface {
 
     //查询检测报告 -> 查询某个商家的所有检测报告 ---
     @Transaction
-    public String queryInspectionReports(Context context, int merchantId) {
+    public String queryInspectionReports(Context context, String merchantId) {
         //构建富查询----考虑分页查询
         String queryString = String.format("{\"selector\" : {\"merchantId\" : \"%s\"}}", merchantId);
 
@@ -457,7 +457,7 @@ public class FootSafetyContract implements ContractInterface {
 
 /*    //绿色认证状态溯源
     @Transaction
-    public String queryMerChantCertificationHistory(Context context, int merchantId) {
+    public String queryMerChantCertificationHistory(Context context, String merchantId) {
         return queryHistoryForKey(context, merchantId);
     }*/
 
@@ -490,12 +490,10 @@ public class FootSafetyContract implements ContractInterface {
 
 
     //获取商家信息
-    private Merchant getMerchant(Context context, int merchantId) {
+    private Merchant getMerchant(Context context, String merchantId) {
         ChaincodeStub stub = context.getStub();
-
-        //将int merchantId转换为String作为键查询
-        String merchantKey = String.valueOf(merchantId);
-        String stringState = stub.getStringState(merchantKey);
+        
+        String stringState = stub.getStringState(merchantId);
         if(stringState == null || stringState.isEmpty()) {
             log.info("Merchant does not exist: " + merchantId);
             throw new ChaincodeException("Merchant does not exist: " + merchantId);
@@ -518,7 +516,7 @@ public class FootSafetyContract implements ContractInterface {
 
 
     //商家是否存在
-//    private boolean merchantExists(Context context, int merchantId) {
+//    private boolean merchantExists(Context context, String merchantId) {
 //        byte[] merchantBytes = context.getStub().getState(merchantId);
 //
 //        return merchantBytes != null && merchantBytes.length > 0;
