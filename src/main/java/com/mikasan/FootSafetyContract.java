@@ -167,6 +167,97 @@ public class FootSafetyContract implements ContractInterface {
         }
     }
 
+
+    //提交检测报告，商家提交商家安全检测报告
+    @Transaction
+    public void updateInspectionReport(Context context,
+                                       String reportId,
+                                       String merchantId,
+                                       String inspectionDate,
+                                       String inspectionAgency,
+                                       String safetyStandardsJson,
+                                       String safetyLevel,
+                                       boolean isPassed,
+                                       String governmentId) {
+        try{
+
+
+            log.info("----------------------------------------------------Submitting inspection report with reportId: " + reportId);
+            log.info("Merchant ID: " + merchantId);
+            log.info("Inspection date: " + inspectionDate);
+            log.info("Inspection agency: " + inspectionAgency);
+            log.info("safetyLevel: " + safetyLevel);
+            log.info("isPassed: " + isPassed);
+            log.info("governmentId: " + governmentId);
+            log.info("Safety standards JSON: " + safetyStandardsJson);
+
+/*            if (!merchantExists(context, merchantId)) {
+                log.info("Merchant does not exist: " + merchantId);
+                throw new ChaincodeException("Merchant does not exist: " + merchantId);
+            }*/
+
+            //验证 safetyStandardsJson 是否有效的JSON数组
+            if (safetyStandardsJson == null || !safetyStandardsJson.startsWith("[") || !safetyStandardsJson.endsWith("]")){
+                log.info("Invalid safetyStandardsJson format: " + safetyStandardsJson);
+                throw new ChaincodeException("Invalid safetyStandardsJson format: " + safetyStandardsJson);
+            }
+
+            // 解析 safetyStandardsJson
+            List<String> safetyStandards;
+            try {
+                // 将 safetyStandardsJson 解析为 List<String>
+                // String.class -》 指定解析后的数据类型为 String
+                safetyStandards = JSON.parseArray(safetyStandardsJson, String.class);
+            } catch (Exception e) {
+                log.severe("Invalid safetyStandardsJson format: " + safetyStandardsJson);
+                throw new ChaincodeException("Invalid safetyStandardsJson format: " + safetyStandardsJson);
+            }
+
+            //遍历 safetyStandards 检验是否符合标准
+            for (String standardId : safetyStandards) {
+                boolean found = false;
+                for (GovernmentStandard standard : governmentStandards) {
+                    //检查每个标准是否在 governmentStandards 中存在
+                    if (standard.getStandardId().equals(standardId) && standard.getGovernmentId().equals(governmentId)) {
+                        found = true;
+
+                        //检查证书是否过期
+                        if (isCertificateExpired(inspectionDate, standard.getValidityPeriod())) {
+                            throw new ChaincodeException(" Your " + standard.getStandardName() + " has expired and the merchant's detection did not pass.");
+                        }
+
+                        break;
+                    }
+                }
+                if (!found) {
+                    throw new ChaincodeException("Standard not found: " + standardId);
+                }
+            }
+
+
+            // 创建检测报告对象
+            InspectionReport report = new InspectionReport()
+                    .setReportId(reportId)
+                    .setMerchantId(merchantId)
+                    .setInspectionDate(inspectionDate)
+                    .setInspectionAgency(inspectionAgency)
+                    .setSafetyLevel(safetyLevel)
+                    .setPassed(isPassed)
+                    .setGovernmentId(governmentId)
+                    .setSafetyStandards(safetyStandards);
+            // 存储检测报告
+            ChaincodeStub stub = context.getStub();
+            // 参数：reportId是键，JSON.toJSONString(report)是值
+
+
+            stub.putState(reportId, JSON.toJSONString(report).getBytes(StandardCharsets.UTF_8)); //将 report 对象转换为 JSON 字符串
+            log.info("Updated report successfully: " + reportId);
+        }catch (Exception e){
+            log.severe("Error submitting inspection report: " + e.getMessage());
+            throw new ChaincodeException("Error submitting inspection report: " + e.getMessage());
+        }
+    }
+
     //证书是否过期
     private boolean isCertificateExpired(String inspectionDate, int validityPeriod) {
         //根据检测日期和有效期（月数）计算证书的截止日期
@@ -245,6 +336,61 @@ public class FootSafetyContract implements ContractInterface {
             //存食品报告对象
             ChaincodeStub stub = context.getStub();
             stub.putStringState(foodId, JSON.toJSONString(report));
+            log.info("Food inspection foodReport submitted: " + foodId);
+            return foodId;
+
+        }catch (Exception e){
+            log.severe("Error submitting food inspection report: " + e.getMessage());
+            throw new ChaincodeException("Error submitting food inspection report: " + e.getMessage());
+        }
+
+    }
+
+    //提交食品检测报告，增加报告的权威性
+    @Transaction
+    public String updateFoodInspectionReport(Context context,
+                                           String foodId,
+                                           String merchantId,
+                                           String inspectionDate,
+                                           String inspectionAgency,
+                                           String SafetyLevel,
+                                           boolean isPassed,
+                                           String complaintId,
+                                           String governmentId
+                                           ){
+        //检查商家、foodId是否存在
+        /*!merchantExists(context, merchantId) && (*/
+        if (foodId == null || foodId.isEmpty()) {
+            log.info("Merchant does not exist or Food ID is empty:"+ foodId);
+            throw new ChaincodeException(
+                    "Food ID is empty" + foodId);
+
+        }
+
+        log.info("Submitting food report with reportId: " + foodId);
+        log.info("Merchant ID: " + merchantId);
+        log.info("Inspection date: " + inspectionDate);
+        log.info("Inspection agency: " + inspectionAgency);
+        log.info("Safety level: " + SafetyLevel);
+        log.info("Passed: " + isPassed);
+        log.info("Complaint ID: " + complaintId);
+        log.info("Government ID: " + governmentId);
+
+        try{
+            //创建食品检测报告
+            FoodInspectionReport report = new FoodInspectionReport();
+            report.setFoodId(foodId)
+                    .setMerchantId(merchantId)
+                    .setInspectionDate(inspectionDate)
+                    .setInspectionAgency(inspectionAgency)
+                    .setSafetyLevel(SafetyLevel)
+                    .setPassed(isPassed)
+                    .setComplaintId(complaintId)
+                    .setGovernmentId(governmentId);
+
+            //存食品报告对象
+            ChaincodeStub stub = context.getStub();
+            stub.putState(foodId, JSON.toJSONString(report).getBytes(StandardCharsets.UTF_8));
             log.info("Food inspection foodReport submitted: " + foodId);
             return foodId;
 
